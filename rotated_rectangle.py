@@ -71,20 +71,7 @@ class RotatedRectangle:
         None.
 
         """
-        self.rotation = new_rotation
-
-        self.points[0] = [
-            self.x + self.hypotenuse * cos(self.rotation + self.angleOffset),
-            self.y - self.hypotenuse * sin(self.rotation + self.angleOffset)]
-        self.points[1] = [
-            self.x + self.hypotenuse * cos(self.rotation - self.angleOffset),
-            self.y - self.hypotenuse * sin(self.rotation - self.angleOffset)]
-        self.points[2] = [
-            self.x + self.hypotenuse * cos(self.rotation + pi + self.angleOffset),
-            self.y - self.hypotenuse * sin(self.rotation + pi + self.angleOffset)]
-        self.points[3] = [
-            self.x + self.hypotenuse * cos(self.rotation + pi - self.angleOffset),
-            self.y - self.hypotenuse * sin(self.rotation + pi - self.angleOffset)]
+        self.rotate(new_rotation - self.rotation)
     
     def set_position(self, new_x, new_y):
         """
@@ -102,8 +89,63 @@ class RotatedRectangle:
         None.
 
         """
-        delta_x = new_x - self.x
-        delta_y = new_y - self.y
+        self.move(new_x - self.x, new_y - self.y)
+
+    def rotate(self, angle):
+        """
+        Rotates the rectangle by a given angle (measured in radians, anticlockwise from the positive x-axis).
+
+        Parameters
+        ----------
+        angle : float
+            The angle in radians anticlockwise from the positive x-axis to the add to the current rotation.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.rotation = self.rotation + angle
+
+        self.points[0] = [
+            self.x + self.hypotenuse * cos(
+                self.rotation + self.angleOffset),
+            self.y - self.hypotenuse * sin(
+                self.rotation + self.angleOffset)]
+        self.points[1] = [
+            self.x + self.hypotenuse * cos(
+                self.rotation - self.angleOffset),
+            self.y - self.hypotenuse * sin(
+                self.rotation - self.angleOffset)]
+        self.points[2] = [
+            self.x + self.hypotenuse * cos(
+                self.rotation + pi + self.angleOffset),
+            self.y - self.hypotenuse * sin(
+                self.rotation + pi + self.angleOffset)]
+        self.points[3] = [
+            self.x + self.hypotenuse * cos(
+                self.rotation + pi - self.angleOffset),
+            self.y - self.hypotenuse * sin(
+                self.rotation + pi - self.angleOffset)]
+
+    def move(self, delta_x, delta_y):
+        """
+        Moves the rectangle by a given amount, translating all boundary points along with it.
+
+        Parameters
+        ----------
+        delta_x : float
+            How far to move in the x-direction.
+        delta_y : float
+            How far to move in the y-direction.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.x = delta_x
+        self.y = delta_y
         
         for i in range(4):
             self.points[i][0] += delta_x
@@ -156,7 +198,7 @@ class RotatedRectangle:
 
         """
         if self.contains_point(centre):
-            return True;
+            return True
         
         for i in range(4):
             if i < 3:

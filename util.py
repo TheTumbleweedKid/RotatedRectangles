@@ -40,11 +40,12 @@ def pointLineSide(start, end, point):
         Left and right are relative to the line's direction which goes from start to end.
     
     """
-    return sign((end[0] - start[0]) * (point[1] - start[1]) - (end[1] - start[1]) * (point[0] - start[0]))
+    return sign((end[0] - start[0]) * -(point[1] - start[1]) - -(end[1] - start[1]) * (point[0] - start[0]))
 
 def distanceSegmentPoint2(start, end, point):
     """
     Finds the shortest squared distance between a point and a line segment.
+    Credit to LibGDX.Intersector class.
 
     Parameters
     ----------
